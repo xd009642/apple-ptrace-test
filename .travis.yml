@@ -1,0 +1,17 @@
+dist: trusty
+language: rust
+
+matrix:
+    include:
+        - env: TARGET=i686-apple-darwin
+          rust: 1.22.1
+          os: osx
+        - env: TARGET=x86_64-apple-darwin
+          rust: 1.22.1
+          os: osx
+
+cache: cargo
+script:
+- cargo clean
+- cargo build
+- cargo run
