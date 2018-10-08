@@ -24,8 +24,9 @@ pub fn try_it_out() {
         },
         Parent{child} => {
             unsafe {
-            let mut port: mach_port_name_t =  mem::uninitialized() ;
-            task_for_pid(mach_task_self(), child.into(), port as *mut mach_port_name_t);
+            let port: mach_port_name_t =  mem::uninitialized() ;
+            let res = task_for_pid(mach_task_self(), child.into(), port as *mut mach_port_name_t);
+            println!("task_for_pid ret: {:?}", res);
             assert_eq!(waitpid(child, None), Ok(WaitStatus::Stopped(child, Signal::SIGTRAP)));
             ptrace::cont(child, None).unwrap();
             assert_eq!(waitpid(child, None), Ok(WaitStatus::Stopped(child, Signal::SIGTRAP)));
